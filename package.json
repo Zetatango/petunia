@@ -1,0 +1,19 @@
+{
+  "name": "petunia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "petunia.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zetatango/petunia.git"
+  },
+  "author": "Nacho Fuenzalida",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zetatango/petunia/issues"
+  },
+  "homepage": "https://github.com/Zetatango/petunia#readme"
+}
