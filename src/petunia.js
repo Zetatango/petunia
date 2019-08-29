@@ -1,6 +1,6 @@
 let Crypto = require('./crypto.js');
 
-module.exports =  class Petunia {
+export class Petunia {
   constructor() {
     return (async () => {
       this.crypto = await new Crypto();
@@ -19,8 +19,5 @@ module.exports =  class Petunia {
   fileCipherObject(cipherData, ck, nonce) {
     return this.crypto.fileCipherObject(cipherData, ck, nonce);
   }
-}
 
-// let hola = ' Hola';
-
-// module.exports = Petunia, hola;
+};
