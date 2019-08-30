@@ -1,6 +1,6 @@
-let Crypto = require('./crypto.js');
+import Crypto from './crypto.js';
 
-export class Petunia {
+class Petunia {
   constructor() {
     return (async () => {
       this.crypto = await new Crypto();
@@ -21,3 +21,5 @@ export class Petunia {
   }
 
 };
+
+export default Petunia;

@@ -1,6 +1,6 @@
 const libsodium = require('libsodium-wrappers');
 
-export class Crypto {
+class Crypto {
   constructor() {
     return (async () => {
       await libsodium.ready;
@@ -42,3 +42,5 @@ export class Crypto {
     };
   }
 }
+
+export default Crypto;
