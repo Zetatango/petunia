@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import Crypto from './crypto.js';
 
 class Petunia {
