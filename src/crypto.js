@@ -1,6 +1,6 @@
 const libsodium = require('libsodium-wrappers');
 
-class Crypto {
+export class Crypto {
   constructor() {
     return (async () => {
       await libsodium.ready;
@@ -11,28 +11,31 @@ class Crypto {
   }
 
   /*
-  * Receives buffer attributes. Returns buffer ciphertext.
+  *  Receives buffer attributes. Returns buffer ciphertext.
   */
   encrypt(data, pk, nonce) {
-    // Encrypt
     const cipherData = this._sodium.crypto_secretbox_easy(data, nonce, pk);
+
     // Remove plaintext value from memory
-    // delete pk.plaintextKey;
+    pk = null;
 
     return cipherData;
   }
 
+  /*
+  *  Receives buffer attributes. Returns buffer ciphertext.
+  */
   decrypt(cipherData, pk, nonce) {
-    // Decrypt
     const plaintextData = this._sodium.crypto_secretbox_open_easy(cipherData, nonce, pk);
 
     // Remove plaintext value from memory
+    pk = null;
 
     return plaintextData;
   }
 
   /*
-  * Receives buffer attributes. Returns JSON with content encoded in Bas64.
+  *  Receives buffer attributes. Returns JSON with Bas64 encoded content.
   */
   fileCipherObject(cipherData, ck, nonce) {
     return {
@@ -42,5 +45,3 @@ class Crypto {
     };
   }
 }
-
-export default Crypto;
