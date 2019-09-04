@@ -2,6 +2,8 @@ version: 2
 jobs:
   build:
     working_directory: ~/petunia
+    environment:
+      - CODECOV_TOKEN: 034de466-b3df-42f7-8872-0255a5713c1b
     docker:
       - image: circleci/node:10.16.3
     steps:
@@ -21,9 +23,6 @@ jobs:
       - run:
           name: test
           command: npm run test-with-coverage
-      - run:
-          name: code-coverage
-          command: 'echo TODO: implement this'
       - store_artifacts:
           path: test-results.xml
           prefix: tests
