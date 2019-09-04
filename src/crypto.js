@@ -12,6 +12,7 @@ export class Crypto {
 
   /*
   *  Receives buffer attributes. Returns buffer ciphertext.
+  *  data attr format can be of any type (string, buffer)
   */
   encrypt(data, pk, nonce) {
     const cipherData = this._sodium.crypto_secretbox_easy(data, nonce, pk);
