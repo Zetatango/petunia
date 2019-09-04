@@ -4,7 +4,8 @@
   "description": "",
   "main": "dist/bundle.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test-with-coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",

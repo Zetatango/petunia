@@ -2,3 +2,4 @@
 /dist
 /lib
 .DS_Store
+/coverage
