@@ -18,7 +18,7 @@ export class Petunia {
     * @return {Uint8Array} Ciphertext value.
     */
   encrypt(data, key, nonce) {
-    return this.crypto.encrypt(data, key, nonce);
+    return this.crypto.encryptWithKey(data, key, nonce);
   }
 
   /**
@@ -28,7 +28,7 @@ export class Petunia {
     * @return {Uint8Array} Plaintext value.
     */
   decrypt(data, key, nonce) {
-    return this.crypto.decrypt(data, key, nonce);
+    return this.crypto.decryptWithKey(data, key, nonce);
   }
 
   /**

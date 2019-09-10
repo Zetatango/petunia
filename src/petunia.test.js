@@ -22,7 +22,7 @@ describe('exposes crypto methods', () => {
     petunia.encrypt('data', 'key', 'nonce');
 
     const mockCryptoInstance = Crypto.mock.instances[0];
-    const mockEncrypt = mockCryptoInstance.encrypt;
+    const mockEncrypt = mockCryptoInstance.encryptWithKey;
 
     expect(mockEncrypt).toHaveBeenCalledTimes(1);
   });
@@ -32,7 +32,7 @@ describe('exposes crypto methods', () => {
     petunia.decrypt('data', 'key', 'nonce');
 
     const mockCryptoInstance = Crypto.mock.instances[0];
-    const mockDecrypt = mockCryptoInstance.decrypt;
+    const mockDecrypt = mockCryptoInstance.decryptWithKey;
 
     expect(mockDecrypt).toHaveBeenCalledTimes(1);
   });

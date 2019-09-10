@@ -15,16 +15,19 @@ export class Crypto {
   /**
     * @param {Uint8Array|String} data - Plaintext to be encrypted.
     * @param {Uint8Array} pk - Public key used for symmetric encryption.
-    * @param {Uint8Array} nonce - To be used one time only.
-    * @return {Uint8Array} Ciphertext value.
+    * @return {JSON} Object containing ciphertext and nonce in Uint8Array format.
     */
-  encrypt(data, pk, nonce) {
+  encryptWithKey(data, pk) {
+    const nonce = this._sodium.randombytes_buf(this._sodium.crypto_secretbox_NONCEBYTES);
     const cipherData = this._sodium.crypto_secretbox_easy(data, nonce, pk);
 
     // Remove plaintext value from memory
     pk = null;
 
-    return cipherData;
+    return {
+      ciphertext: cipherData,
+      nonce: nonce,
+    };
   }
 
   /**
@@ -33,10 +36,8 @@ export class Crypto {
     * @param {Uint8Array} nonce - To be used one time only.
     * @return {Uint8Array} Plaintext value.
     */
-  decrypt(cipherData, pk, nonce) {
-    const plaintextData = this._sodium.crypto_secretbox_open_easy(cipherData,
-        nonce,
-        pk);
+  decryptWithKey(cipherData, pk, nonce) {
+    const plaintextData = this._sodium.crypto_secretbox_open_easy(cipherData, nonce, pk);
 
     // Remove plaintext value from memory
     pk = null;

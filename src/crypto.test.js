@@ -15,7 +15,7 @@ describe('crypto class methods', () => {
   const nonceBuff = Buffer.from(nonceB64, 'base64');
   const keyB64 = 'X1IJ2SFW0oJVcGmmXqTt6Bh1NfD+uf40bkmWW/G8VLs=';
   const keyBuff = Buffer.from(keyB64, 'base64');
-  const nonce = new Uint8Array(nonceBuff);
+  const nonceMock = new Uint8Array(nonceBuff);
   const key = new Uint8Array(keyBuff);
   const samplePlainText = 'hi';
   const samplePlainTextBuffer = Buffer.from(samplePlainText);
@@ -28,35 +28,42 @@ describe('crypto class methods', () => {
   });
 
   describe('encrypt', () => {
+    beforeEach(() => {
+      crypto._sodium.randombytes_buf = jest.fn(() => nonceMock);
+    });
+
     it('works with string data', () => {
-      const ciphertext = crypto.encrypt(samplePlainText, key, nonce);
+      const {ciphertext, nonce} = crypto.encryptWithKey(samplePlainText, key);
 
       expect(sampleCipherView.toString()).toEqual(ciphertext.toString());
+      expect(nonce.toString()).toEqual(nonceMock.toString());
     });
 
     it('works with unit8array data', () => {
-      const sampleUint8ArrayText = new Uint8Array(samplePlainTextBuffer);
-      const ciphertext = crypto.encrypt(sampleUint8ArrayText, key, nonce);
+      const sampleUint8ArrayTxt = new Uint8Array(samplePlainTextBuffer);
+      const {ciphertext, nonce} = crypto.encryptWithKey(sampleUint8ArrayTxt, key);
 
       expect(sampleCipherView.toString()).toEqual(ciphertext.toString());
+      expect(nonce.toString()).toEqual(nonceMock.toString());
     });
 
     it('raises error if key is invalid', () => {
       expect(() => {
-        crypto.encrypt(samplePlainText, 'invalid_key_length', nonce);
+        crypto.encryptWithKey(samplePlainText, 'invalid_key_length');
       }).toThrow('invalid key length');
     });
 
     it('raises error if nonce is invalid', () => {
+      crypto._sodium.randombytes_buf = jest.fn(() => 'invalid_nonce_length');
       expect(() => {
-        crypto.encrypt(samplePlainText, key, 'invalid_nonce_length');
+        crypto.encryptWithKey(samplePlainText, key);
       }).toThrow('invalid nonce length');
     });
   });
 
   describe('decrypt', () => {
     it('works with unit8array data', () => {
-      const plaintextBuff = crypto.decrypt(sampleCipherView, key, nonce);
+      const plaintextBuff = crypto.decryptWithKey(sampleCipherView, key, nonceMock);
       const plaintext = Buffer.from(plaintextBuff).toString('utf8');
 
       expect(samplePlainText.toString()).toEqual(plaintext.toString());
@@ -64,13 +71,13 @@ describe('crypto class methods', () => {
 
     it('raises error if key is invalid', () => {
       expect(() => {
-        crypto.decrypt(sampleCipherView, 'invalid_key_length', nonce);
+        crypto.decryptWithKey(sampleCipherView, 'invalid_key_length', nonceMock);
       }).toThrow('invalid key length');
     });
 
     it('raises error if nonce is invalid', () => {
       expect(() => {
-        crypto.decrypt(sampleCipherView, key, 'invalid_nonce_length');
+        crypto.decryptWithKey(sampleCipherView, key, 'invalid_nonce_length');
       }).toThrow('invalid nonce length');
     });
   });
@@ -83,15 +90,19 @@ describe('crypto class methods', () => {
         'nonce': nonceB64,
       };
 
-      const fco = crypto.fileCipherObject(sampleCipherView, key, nonce);
+      const fco = crypto.fileCipherObject(sampleCipherView, key, nonceMock);
       expect(expectedFileCipherObj).toEqual(fco);
     });
   });
 
   describe('integration', () => {
+    beforeEach(() => {
+      crypto._sodium.randombytes_buf = jest.fn(() => nonceMock);
+    });
+
     it('can encrypt and decrypt', () => {
-      const cipherBuffer = crypto.encrypt(samplePlainText, key, nonce);
-      const plaintextBuffer = crypto.decrypt(cipherBuffer, key, nonce);
+      const {ciphertext, nonce} = crypto.encryptWithKey(samplePlainText, key);
+      const plaintextBuffer = crypto.decryptWithKey(ciphertext, key, nonce);
       const plaintext = Buffer.from(plaintextBuffer).toString('utf8');
 
       expect(samplePlainText).toEqual(plaintext);
