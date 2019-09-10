@@ -19,6 +19,9 @@ jobs:
       - run:
           name: Npm Audit
           command: npm run do-audit
+      - run:
+          name: ES Lint
+          command: npm run lint
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:

@@ -1,5 +1,5 @@
 import 'babel-polyfill';
-import { Crypto } from './crypto.js';
+import {Crypto} from './crypto.js';
 
 describe('crypto class', () => {
   it('loads libsodium lib', async () => {
@@ -11,18 +11,18 @@ describe('crypto class', () => {
 
 describe('crypto class methods', () => {
   let crypto;
-  const nonceB64 = "UgJY4MykLeUh+Sm7SorFiC+GE4Ot+DN8";
-  const nonceBuff = Buffer.from(nonceB64, "base64");
-  const keyB64 = "X1IJ2SFW0oJVcGmmXqTt6Bh1NfD+uf40bkmWW/G8VLs=";
-  const keyBuff = Buffer.from(keyB64, "base64");
+  const nonceB64 = 'UgJY4MykLeUh+Sm7SorFiC+GE4Ot+DN8';
+  const nonceBuff = Buffer.from(nonceB64, 'base64');
+  const keyB64 = 'X1IJ2SFW0oJVcGmmXqTt6Bh1NfD+uf40bkmWW/G8VLs=';
+  const keyBuff = Buffer.from(keyB64, 'base64');
   const nonce = new Uint8Array(nonceBuff);
   const key = new Uint8Array(keyBuff);
-  const samplePlainText = "hi";
+  const samplePlainText = 'hi';
   const samplePlainTextBuffer = Buffer.from(samplePlainText);
-  const sampleCipherB64 = "bhPvT+MsdXKopRp7jw35CfPh";
-  const sampleCipherBuffer = Buffer.from(sampleCipherB64, "base64");
+  const sampleCipherB64 = 'bhPvT+MsdXKopRp7jw35CfPh';
+  const sampleCipherBuffer = Buffer.from(sampleCipherB64, 'base64');
   const sampleCipherView = new Uint8Array(sampleCipherBuffer);
-  
+
   beforeAll(async () => {
     crypto = await new Crypto();
   });
@@ -43,13 +43,13 @@ describe('crypto class methods', () => {
 
     it('raises error if key is invalid', () => {
       expect(() => {
-        crypto.encrypt(samplePlainText, "invalid_key_length", nonce);
+        crypto.encrypt(samplePlainText, 'invalid_key_length', nonce);
       }).toThrow('invalid key length');
     });
 
     it('raises error if nonce is invalid', () => {
       expect(() => {
-        crypto.encrypt(samplePlainText, key, "invalid_nonce_length");
+        crypto.encrypt(samplePlainText, key, 'invalid_nonce_length');
       }).toThrow('invalid nonce length');
     });
   });
@@ -64,13 +64,13 @@ describe('crypto class methods', () => {
 
     it('raises error if key is invalid', () => {
       expect(() => {
-        crypto.decrypt(sampleCipherView, "invalid_key_length", nonce);
+        crypto.decrypt(sampleCipherView, 'invalid_key_length', nonce);
       }).toThrow('invalid key length');
     });
 
     it('raises error if nonce is invalid', () => {
       expect(() => {
-        crypto.decrypt(sampleCipherView, key, "invalid_nonce_length");
+        crypto.decrypt(sampleCipherView, key, 'invalid_nonce_length');
       }).toThrow('invalid nonce length');
     });
   });
@@ -80,7 +80,7 @@ describe('crypto class methods', () => {
       const expectedFileCipherObj = {
         'data': sampleCipherB64,
         'key': keyB64,
-        'nonce': nonceB64
+        'nonce': nonceB64,
       };
 
       const fco = crypto.fileCipherObject(sampleCipherView, key, nonce);

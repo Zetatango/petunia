@@ -1,6 +1,6 @@
 import 'babel-polyfill';
-import { Petunia } from './petunia.js';
-import { Crypto } from './crypto.js';
+import {Petunia} from './petunia.js';
+import {Crypto} from './crypto.js';
 jest.mock('./crypto.js');
 
 describe('petunia class', () => {
@@ -20,7 +20,7 @@ describe('exposes crypto methods', () => {
   it('exposes encrypt', async () => {
     const petunia = await new Petunia();
     petunia.encrypt('data', 'key', 'nonce');
-    
+
     const mockCryptoInstance = Crypto.mock.instances[0];
     const mockEncrypt = mockCryptoInstance.encrypt;
 
@@ -30,7 +30,7 @@ describe('exposes crypto methods', () => {
   it('exposes decrypt', async () => {
     const petunia = await new Petunia();
     petunia.decrypt('data', 'key', 'nonce');
-    
+
     const mockCryptoInstance = Crypto.mock.instances[0];
     const mockDecrypt = mockCryptoInstance.decrypt;
 
@@ -40,7 +40,7 @@ describe('exposes crypto methods', () => {
   it('exposes fileCipherObject', async () => {
     const petunia = await new Petunia();
     petunia.fileCipherObject('data', 'key', 'nonce');
-    
+
     const mockCryptoInstance = Crypto.mock.instances[0];
     const mockFileCipherObject = mockCryptoInstance.fileCipherObject;
 

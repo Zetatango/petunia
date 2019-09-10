@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "test-with-coverage": "jest --coverage",
-    "do-audit": "node audit/audit.js "
+    "do-audit": "node audit/audit.js ",
+    "lint": "./node_modules/.bin/eslint src/*.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,8 @@
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "babel-loader": "^8.0.6",
+    "eslint": "^6.3.0",
+    "eslint-config-google": "^0.14.0",
     "jest": "^24.9.0",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7"
