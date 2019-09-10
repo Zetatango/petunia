@@ -5,7 +5,8 @@
   "main": "dist/bundle.js",
   "scripts": {
     "test": "jest",
-    "test-with-coverage": "jest --coverage"
+    "test-with-coverage": "jest --coverage",
+    "do-audit": "node audit/audit.js "
   },
   "repository": {
     "type": "git",

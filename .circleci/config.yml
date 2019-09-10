@@ -9,13 +9,16 @@ jobs:
     steps:
       - checkout
       - run:
-          name: update-npm
+          name: Npm update
           command: 'sudo npm install -g npm@latest'
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: install-npm
+          name: Npm install
           command: npm install
+      - run:
+          name: Npm Audit
+          command: npm run do-audit
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
