@@ -220,5 +220,36 @@ describe('crypto class methods', () => {
 
       expect(samplePlainText).toEqual(plaintext);
     });
+
+    it('fails when ciphertext has been tampered', () => {
+      const {ciphertext, nonce} = crypto.encryptWithKey(samplePlainText, key);
+      let ciphertextB64 = Buffer.from(ciphertext).toString('base64')
+
+      const tamperedCiphertextB64 = ciphertextB64 + 'malicious code';
+      const tamperedCiphertextBuffer = Buffer.from(tamperedCiphertextB64, 'base64');
+      const tamperedCiphertextView = new Uint8Array(tamperedCiphertextBuffer);
+
+      expect(() => {
+        crypto.decryptWithKey(tamperedCiphertextView, key, nonce);
+      }).toThrow('wrong secret key for the given ciphertext');
+    });
+
+    it('fails when key does not match', () => {
+      const {ciphertext, nonce} = crypto.encryptWithKey(samplePlainText, key);
+      const badKey = new Uint8Array(32);
+
+      expect(() => {
+        crypto.decryptWithKey(ciphertext, badKey, nonce);
+      }).toThrow('wrong secret key for the given ciphertext');
+    });
+
+    it('fails when nonce does not match', () => {
+      const {ciphertext, nonce} = crypto.encryptWithKey(samplePlainText, key);
+      const badNonce = new Uint8Array(24);
+
+      expect(() => {
+        crypto.decryptWithKey(ciphertext, key, badNonce);
+      }).toThrow('wrong secret key for the given ciphertext');
+    });
   });
 });
