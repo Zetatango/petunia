@@ -52,8 +52,8 @@ export class Crypto {
     * @return {JSON} Cipher object with Bas64 encoded values.
     */
   fileCipherObject(cipherData, ck, nonce) {
-    if(cipherData.constructor !== Uint8Array || ck.constructor !== Uint8Array || nonce.constructor !== Uint8Array) {
-      throw "Parameter is not a Uint8Array";
+    if (cipherData.constructor !== Uint8Array || ck.constructor !== Uint8Array || nonce.constructor !== Uint8Array) {
+      throw new Error('Parameter is not a Uint8Array');
     }
     return {
       'data': Buffer.from(cipherData).toString('base64'),

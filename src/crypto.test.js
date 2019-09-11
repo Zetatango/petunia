@@ -71,7 +71,7 @@ describe('crypto class methods', () => {
 
       describe('missing attribute', () => {
         it('raises error if key is missing', () => {
-          [null, undefined].forEach(function(val,_index) { 
+          [null, undefined].forEach(function(val, _index) {
             expect(() => {
               crypto.encryptWithKey(samplePlainText, val);
             }).toThrow('key cannot be null or undefined');
@@ -79,7 +79,7 @@ describe('crypto class methods', () => {
         });
 
         it('raises error if data is missing', () => {
-          [null, undefined].forEach(function(val,_index) { 
+          [null, undefined].forEach(function(val, _index) {
             expect(() => {
               crypto.encryptWithKey(val, key);
             }).toThrow('message cannot be null or undefined');
@@ -135,7 +135,7 @@ describe('crypto class methods', () => {
 
       describe('missing attribute', () => {
         it('raises error if cipherData is missing', () => {
-          [null, undefined].forEach(function(val,_index) { 
+          [null, undefined].forEach(function(val, _index) {
             expect(() => {
               crypto.decryptWithKey(val, key, nonceMock);
             }).toThrow('ciphertext cannot be null or undefined');
@@ -143,7 +143,7 @@ describe('crypto class methods', () => {
         });
 
         it('raises error if key is missing', () => {
-          [null, undefined].forEach(function(val,_index) { 
+          [null, undefined].forEach(function(val, _index) {
             expect(() => {
               crypto.decryptWithKey(sampleCipherView, val, nonceMock);
             }).toThrow('key cannot be null or undefined');
@@ -151,7 +151,7 @@ describe('crypto class methods', () => {
         });
 
         it('raises error if data is missing', () => {
-          [null, undefined].forEach(function(val,_index) { 
+          [null, undefined].forEach(function(val, _index) {
             expect(() => {
               crypto.decryptWithKey(sampleCipherView, key, val);
             }).toThrow('nonce cannot be null or undefined');
@@ -223,7 +223,7 @@ describe('crypto class methods', () => {
 
     it('fails when ciphertext has been tampered', () => {
       const {ciphertext, nonce} = crypto.encryptWithKey(samplePlainText, key);
-      let ciphertextB64 = Buffer.from(ciphertext).toString('base64')
+      const ciphertextB64 = Buffer.from(ciphertext).toString('base64');
 
       const tamperedCiphertextB64 = ciphertextB64 + 'malicious code';
       const tamperedCiphertextBuffer = Buffer.from(tamperedCiphertextB64, 'base64');
@@ -244,7 +244,7 @@ describe('crypto class methods', () => {
     });
 
     it('fails when nonce does not match', () => {
-      const {ciphertext, nonce} = crypto.encryptWithKey(samplePlainText, key);
+      const {ciphertext} = crypto.encryptWithKey(samplePlainText, key);
       const badNonce = new Uint8Array(24);
 
       expect(() => {
