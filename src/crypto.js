@@ -32,7 +32,7 @@ export class Crypto {
 
   /**
     * @param {Uint8Array} cipherData - Ciphertext to be decrypted.
-    * @param {Uint8Array} pk - Public key used for symmetric encryption.
+    * @param {Uint8Array} pk - Plaintext key used for symmetric encryption.
     * @param {Uint8Array} nonce - To be used one time only.
     * @return {Uint8Array} Plaintext value.
     */
@@ -40,7 +40,7 @@ export class Crypto {
     const plaintextData = this._sodium.crypto_secretbox_open_easy(cipherData, nonce, pk);
 
     // Remove plaintext value from memory
-    pk = null;
+    pk = new Uint8Array(pk.length);
 
     return plaintextData;
   }
