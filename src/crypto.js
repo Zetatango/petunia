@@ -22,8 +22,7 @@ export class Crypto {
     const cipherData = this._sodium.crypto_secretbox_easy(data, nonce, pk);
 
     // Remove plaintext value from memory
-    pk = new Uint8Array(pk.length);
-    pk = null;
+    pk = pk.fill(0, 0, pk.length);
 
     return {
       ciphertext: cipherData,
@@ -41,8 +40,7 @@ export class Crypto {
     const plaintextData = this._sodium.crypto_secretbox_open_easy(cipherData, nonce, pk);
 
     // Remove plaintext value from memory
-    pk = new Uint8Array(pk.length);
-    pk = null;
+    pk = pk.fill(0, 0, pk.length);
 
     return plaintextData;
   }

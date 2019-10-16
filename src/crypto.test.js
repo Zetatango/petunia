@@ -11,17 +11,21 @@ describe('crypto class', () => {
 
 describe('crypto class methods', () => {
   let crypto;
+  let key;
   const nonceB64 = 'UgJY4MykLeUh+Sm7SorFiC+GE4Ot+DN8';
   const nonceBuff = Buffer.from(nonceB64, 'base64');
   const keyB64 = 'X1IJ2SFW0oJVcGmmXqTt6Bh1NfD+uf40bkmWW/G8VLs=';
   const keyBuff = Buffer.from(keyB64, 'base64');
   const nonceMock = new Uint8Array(nonceBuff);
-  const key = new Uint8Array(keyBuff);
   const samplePlainText = 'hi';
   const samplePlainTextBuffer = Buffer.from(samplePlainText);
   const sampleCipherB64 = 'bhPvT+MsdXKopRp7jw35CfPh';
   const sampleCipherBuffer = Buffer.from(sampleCipherB64, 'base64');
   const sampleCipherView = new Uint8Array(sampleCipherBuffer);
+
+  beforeEach(() => {
+    key = new Uint8Array(keyBuff);
+  });
 
   beforeAll(async () => {
     crypto = await new Crypto();
@@ -215,6 +219,7 @@ describe('crypto class methods', () => {
 
     it('can encrypt and decrypt', () => {
       const {ciphertext, nonce} = crypto.encryptWithKey(samplePlainText, key);
+      key = new Uint8Array(keyBuff); // pk was removed from memory, need to set it again
       const plaintextBuffer = crypto.decryptWithKey(ciphertext, key, nonce);
       const plaintext = Buffer.from(plaintextBuffer).toString('utf8');
 
