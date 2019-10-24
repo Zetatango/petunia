@@ -2,9 +2,12 @@
   "name": "petunia",
   "version": "1.0.0",
   "description": "",
-  "main": "petunia.js",
+  "main": "dist/bundle.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test-with-coverage": "jest --coverage",
+    "do-audit": "node audit/audit.js ",
+    "lint": "./node_modules/.bin/eslint src/*.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,20 @@
   "bugs": {
     "url": "https://github.com/Zetatango/petunia/issues"
   },
-  "homepage": "https://github.com/Zetatango/petunia#readme"
+  "homepage": "https://github.com/Zetatango/petunia#readme",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "libsodium-wrappers": "^0.7.5"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "eslint": "^6.3.0",
+    "eslint-config-google": "^0.14.0",
+    "jest": "^24.9.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7"
+  }
 }

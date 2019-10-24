@@ -1,0 +1,39 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/petunia
+    environment:
+      - CODECOV_TOKEN: 034de466-b3df-42f7-8872-0255a5713c1b
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - checkout
+      - run:
+          name: Npm update
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Npm install
+          command: npm install
+      - run:
+          name: Npm Audit
+          command: npm run do-audit
+      - run:
+          name: ES Lint
+          command: npm run lint
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: test
+          command: npm run test-with-coverage
+      - store_artifacts:
+          path: test-results.xml
+          prefix: tests
+      - store_artifacts:
+          path: coverage
+          prefix: coverage
+      - store_test_results:
+          path: test-results.xml
